@@ -6,8 +6,12 @@ use Illuminate\Container\Container;
  * This will be moved into library in future.
  *
  **/
-function app($abstract, $data = []) {
+function app($abstract = null, $data = []) {
     $container = Container::getInstance();
+
+    if (is_null($abstract)) {
+        return $container;
+    }
 
     return empty($data)
         ? $container->make($abstract)
@@ -19,6 +23,7 @@ function config($name, $default = null) {
 }
 
 function view($template, $data = []) {
-    $template = app('twig')->load($template);
+    $template = str_replace('.', '/', $template);
+    $template = app('twig')->load("{$template}.twig");
     return $template->render($data);
 }
