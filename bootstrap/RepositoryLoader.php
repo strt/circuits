@@ -11,7 +11,7 @@ class RepositoryLoader
 
         foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
             $directory = static::getNestedDirectory($configPath, $file);
-            $files[$directory . basename($file->getRealPath(), '.php')] = $file->getRealPath();
+            $files[/*$directory .*/basename($file->getRealPath(), '.php')] = $file->getRealPath();
         }
 
         $config = Container::getInstance()->make('config');
