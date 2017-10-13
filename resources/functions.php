@@ -2,9 +2,6 @@
 
 require_once dirname(__DIR__) . '/bootstrap/app.php';
 
-
-use App\Http\Controllers\HomeController;
-
 // Setup where to find our theme.
 array_map(
     'add_filter',

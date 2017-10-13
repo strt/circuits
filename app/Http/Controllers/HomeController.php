@@ -22,7 +22,7 @@ class HomeController
     }
 
     public function home() {
-        echo 'hej';
+        return view('test.twig');
     }
 
     public function test()
