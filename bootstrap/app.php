@@ -20,7 +20,7 @@ $app->singleton('config', function ($app) {
 $app->singleton('twig', function ($app) {
     $loader = new Twig_Loader_file(dirname(__DIR__) . '/resources/views');
     return new Twig_Environment($loader, [
-        'cache' => __DIR__ . '/cache'
+        // 'cache' => __DIR__ . '/cache'
     ]);
 });
 
@@ -72,6 +72,11 @@ add_filter('template_include', function ($template) {
 }, PHP_INT_MAX);
 
 function filter_templates($templates) {
+    // Default action
+    $action = function () {
+        echo app()->call("\\App\\Http\\Controllers\\HomeController@index");
+    };
+
     // Loop through all templates and check if a controller exists.
     foreach ($templates as $template) {
         // Get the controller part of it.
@@ -82,16 +87,19 @@ function filter_templates($templates) {
         // Check if controller exists
         if (class_exists($controller)) {
             $method = array_pop($template);
-            (function () use ($controller, $method) {
-                echo app($controller)->{$method}(/* implement arguments */);
-            })();
+            $action = function () use ($controller, $method) {
+                echo app()->call("{$controller}@{$method}");
+            };
 
             // More than one controller would be stupid.
             break;
         }
     }
 
-    return [];
+    $action();
+
+    // Ugly fix for now
+    return 'index.php';
 
     // Legacy keep for reference
     // return $template;
