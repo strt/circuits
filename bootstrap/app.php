@@ -143,9 +143,16 @@ function filter_templates($templates) {
 //     return $template->render($data);
 // }
 
-app('templater')->add('Test Template', 'HomeController@index');
-app('templater')->add('Home Template', 'HomeController@home');
-app('templater')->add('Lul Template', 'HomeController@luld');
+app('templater')->add('Home', 'HomeController@index');
+
+app('templater')->add('Case listing', 'CaseController@show');
+app('templater')->add('Case single', 'CaseController@index');
+
+app('templater')->add('News listing', 'NewsController@show');
+app('templater')->add('News single', 'NewsController@index');
+
+app('templater')->add('Single page', 'PageController@index');
+app('templater')->add('Contact', 'ContactController@index');
 
 // Allow our controllers to be chosen in the edit view.
 add_filter('theme_page_templates', function ($template) {
