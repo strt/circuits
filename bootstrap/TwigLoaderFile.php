@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Twig_Loader_File
+ * Temporary code for using the twig templating system.
  */
-class Twig_Loader_File extends Twig_Loader_Filesystem
+class TwigLoaderFile extends Twig_Loader_Filesystem
 {
     protected function findTemplate($name, $throw = true)
     {
-        if(isset($this->cache[$name])) {
+        if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
 
-        if(is_file($name)) {
+        if (is_file($name)) {
             $this->cache[$name] = $name;
             return $name;
         }
