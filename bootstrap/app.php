@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/vendor/autoload.php';
-require_once "RepositoryLoader.php";
 require_once "TwigLoaderFile.php";
 require_once "helpers.php";
 require_once "Application.php";
@@ -49,10 +48,6 @@ class TestTemplater
 $app->singleton('templater', function ($app) {
     return new TestTemplater;
 });
-
-// Refactor into own folder later on
-// Bootstrap config
-RepositoryLoader::load();
 
 // Catch all template hierachy types and redirect it into our filter.
 collect([
