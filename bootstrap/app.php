@@ -2,11 +2,12 @@
 
 require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/vendor/autoload.php';
 require_once "RepositoryLoader.php";
-require_once "twig.php";
+require_once "TwigLoaderFile.php";
 require_once "helpers.php";
 
 use Illuminate\Container\Container;
 use Illuminate\Config\Repository as Config;
+use App\bootstrap\Twig_Loader_File;
 
 // Setup container
 $app = Container::getInstance();
@@ -18,7 +19,7 @@ $app->singleton('config', function ($app) {
 
 // Setup twig
 $app->singleton('twig', function ($app) {
-    $loader = new Twig_Loader_file(dirname(__DIR__) . '/resources/views');
+    $loader = new TwigLoaderFile(dirname(__DIR__) . '/resources/views');
     return new Twig_Environment($loader, [
         // 'cache' => __DIR__ . '/cache'
     ]);
@@ -41,7 +42,7 @@ class TestTemplater
     }
 }
 
-$app->singleton('templater', function($app) {
+$app->singleton('templater', function ($app) {
     return new TestTemplater;
 });
 
@@ -71,10 +72,11 @@ add_filter('template_include', function ($template) {
     // }
 }, PHP_INT_MAX);
 
-function filter_templates($templates) {
+function filter_templates($templates)
+{
     // Default action
     $action = function () {
-        echo app()->call("\\App\\Http\\Controllers\\HomeController@index");
+        echo app()->call("\\App\\Http\\Controllers\\ExampleController@index");
     };
 
     // Loop through all templates and check if a controller exists.
@@ -151,16 +153,7 @@ function filter_templates($templates) {
 //     return $template->render($data);
 // }
 
-app('templater')->add('Home', 'HomeController@index');
-
-app('templater')->add('Case listing', 'CaseController@show');
-app('templater')->add('Case single', 'CaseController@index');
-
-app('templater')->add('News listing', 'NewsController@show');
-app('templater')->add('News single', 'NewsController@index');
-
-app('templater')->add('Single page', 'PageController@index');
-app('templater')->add('Contact', 'ContactController@index');
+app('templater')->add('Home', 'ExampleController@index');
 
 // Allow our controllers to be chosen in the edit view.
 add_filter('theme_page_templates', function ($template) {

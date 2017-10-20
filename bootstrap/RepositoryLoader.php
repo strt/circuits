@@ -15,7 +15,7 @@ class RepositoryLoader
         }
 
         $config = Container::getInstance()->make('config');
-        foreach($files as $key => $path) {
+        foreach ($files as $key => $path) {
             $config->set($key, require $path);
         }
     }
