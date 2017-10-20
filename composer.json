@@ -15,7 +15,16 @@
         "illuminate/container": "~5.5",
         "illuminate/support": "~5.5",
         "illuminate/config": "~5.5",
-        "symfony/finder": "~3.4",
+        "symfony/finder": "3.3",
         "twig/twig": "~2.4",
+        "squizlabs/php_codesniffer": "^3.1"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "test": [
+            "vendor/bin/phpcs --ignore=vendor/*,bootstrap/cache/* --standard=PSR2 ."
+        ]
     }
 }
