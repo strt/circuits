@@ -15,7 +15,9 @@
         "illuminate/container": "~5.5",
         "illuminate/support": "~5.5",
         "illuminate/config": "~5.5",
-        "symfony/finder": "~3.4",
-        "twig/twig": "~2.4",
+        "illuminate/http": "~5.5",
+        "illuminate/pipeline": "~5.5",
+        "symfony/finder": "~3.3",
+        "twig/twig": "~2.4"
     }
 }

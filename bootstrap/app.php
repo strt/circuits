@@ -4,17 +4,23 @@ require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/vendor/aut
 require_once "RepositoryLoader.php";
 require_once "twig.php";
 require_once "helpers.php";
+require_once "Application.php";
+require_once "Kernel.php";
+require_once "LoadConfiguration.php";
 
-use Illuminate\Container\Container;
-use Illuminate\Config\Repository as Config;
+// $startTime = microtime(true);
+// $request = Illuminate\Http\Request::capture();
+// $endTime = microtime(true);
+// dump($endTime - $startTime);
+// dump($request->activated);
+// die();
 
 // Setup container
-$app = Container::getInstance();
+$app = new Application(
+    realpath(__DIR__.'/../')
+);
 
-// Setup config
-$app->singleton('config', function ($app) {
-    return new Config([]);
-});
+$app->bootstrapWith([LoadConfiguration::class]);
 
 // Setup twig
 $app->singleton('twig', function ($app) {
@@ -23,6 +29,8 @@ $app->singleton('twig', function ($app) {
         // 'cache' => __DIR__ . '/cache'
     ]);
 });
+
+$app->singleton('kernel', Kernel::class);
 
 // Load templater
 // Refactor later
@@ -72,6 +80,17 @@ add_filter('template_include', function ($template) {
 }, PHP_INT_MAX);
 
 function filter_templates($templates) {
+    $kernel = app('kernel');
+    $kernel->setTemplates($templates);
+
+    $response = $kernel->handle(
+        Illuminate\Http\Request::capture()
+    );
+
+    // $response->send();
+
+    // $kernel->terminate($request, $response);
+
     // Default action
     $action = function () {
         echo app()->call("\\App\\Http\\Controllers\\HomeController@index");
