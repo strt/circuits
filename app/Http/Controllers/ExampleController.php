@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class HomeController
+class ExampleController
 {
     public function __construct(\App\Helpers\Test $test)
     {
